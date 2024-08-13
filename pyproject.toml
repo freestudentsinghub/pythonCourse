@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "pythonproject3"
+version = "0.1.0"
+description = ""
+authors = ["freestudentsinghub  <masha1207355@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.32.3"
+pandas = "^2.2.2"
+
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.1.0"
+pytest = "^8.2.2"
+pytest-cov = "^5.0.0"
+
+
+[tool.poetry.group.lint.dependencies]
+mypy = "^1.10.1"
+black = "^24.4.2"
+isort = "^5.13.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
