@@ -3,8 +3,8 @@ from typing import Optional
 
 import pandas as pd
 
-from src.utils import read_excel
 from src.logger import setup_logger
+from src.utils import read_excel
 
 logger = setup_logger("reports", "reports.log")
 

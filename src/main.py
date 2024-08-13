@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import json
 
+from src.logger import setup_logger
 from src.views import (currency_rates_eur, currency_rates_usd, for_each_card,
                        get_greeting, get_stock_prices, symbols,
                        top_transactions_by_payment_amount, transactions)
-from src.logger import setup_logger
 
 logger = setup_logger("main", "main.log")
 

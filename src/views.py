@@ -2,18 +2,19 @@
 
 
 import os
-from datetime import datetime
-from typing import List, Optional, Tuple
-
 import requests
+from datetime import datetime
+from typing import List, Optional, Tuple, Any
+
 from dotenv import load_dotenv
 
 from src.utils import read_excel, user_currencies, user_stocks
 
-load_dotenv()
+
 from src.logger import setup_logger
 
 logger = setup_logger("views", "views.log")
+load_dotenv()
 
 def get_greeting(datetime_str) -> str:
     """Функция для определения времени суток на основе переданной даты и времени."""
@@ -34,7 +35,7 @@ def get_greeting(datetime_str) -> str:
 transactions = read_excel("../data/operations.xls")
 
 
-def for_each_card(transactions: List[dict]) -> Tuple[List[str], List[float], List[int]]:
+def for_each_card(transactions: List[dict]) -> Tuple[List[str | None], List[Any | None], List[Any | None]]:
     """По каждой карте: последние 4 цифры карты;
     общая сумма расходов;
     кешбэк (1 рубль на каждые 100 рублей)."""
@@ -49,7 +50,7 @@ def for_each_card(transactions: List[dict]) -> Tuple[List[str], List[float], Lis
 # print(for_each_card(transactions))
 
 
-def top_transactions_by_payment_amount(transactions: List[dict]) -> List[dict]:
+def top_transactions_by_payment_amount(transactions: List[dict]) -> List[Any]:
     """Топ-5 транзакций по сумме платежа."""
     logger.info("func top_transactions_by_payment_amount start")
     total_spend = [
@@ -57,7 +58,7 @@ def top_transactions_by_payment_amount(transactions: List[dict]) -> List[dict]:
         for transaction in transactions
         if transaction.get("Сумма платежа") >= 0
     ]
-    top_five = sorted(total_spend, reverse=True)[:5]
+    top_five = sorted([spend for spend in total_spend if spend is not None], reverse=True)[:5]
 
     last_top = [
         transaction
