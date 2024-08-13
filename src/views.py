@@ -35,14 +35,14 @@ def get_greeting(datetime_str) -> str:
 transactions = read_excel("../data/operations.xls")
 
 
-def for_each_card(transactions: List[dict]) -> Tuple[List[str | None], List[Any | None], List[Any | None]]:
+def for_each_card(transactions: List[dict]) -> Tuple[List[str | None], List[float], List[int | None]]:
     """По каждой карте: последние 4 цифры карты;
     общая сумма расходов;
     кешбэк (1 рубль на каждые 100 рублей)."""
     logger.info("func for_each_card start")
     cards = [transaction.get("Номер карты") for transaction in transactions]
-    total_spend = [transaction.get("Сумма платежа") for transaction in transactions]
-    cashback = [transaction.get("Сумма платежа") // 100 for transaction in transactions]
+    total_spend = [t['Сумма платежа'] for t in transactions]
+    cashback = [t["Сумма платежа"] // 100 for t in transactions]
     logger.info("func for_each_card done")
     return cards, total_spend, cashback
 
@@ -54,9 +54,9 @@ def top_transactions_by_payment_amount(transactions: List[dict]) -> List[Any]:
     """Топ-5 транзакций по сумме платежа."""
     logger.info("func top_transactions_by_payment_amount start")
     total_spend = [
-        transaction.get("Сумма платежа")
-        for transaction in transactions
-        if transaction.get("Сумма платежа") >= 0
+        t["Сумма платежа"]
+        for t in transactions
+        if t["Сумма платежа"] >= 0
     ]
     top_five = sorted([spend for spend in total_spend if spend is not None], reverse=True)[:5]
 
@@ -84,7 +84,7 @@ def top_transactions_by_payment_amount(transactions: List[dict]) -> List[Any]:
         return []
 
 
-# print(top_transactions_by_payment_amount(transactions))
+print(top_transactions_by_payment_amount(transactions))
 
 
 def currency_rates_usd() -> Optional[float]:
@@ -105,7 +105,7 @@ def currency_rates_usd() -> Optional[float]:
         return None
 
 
-print(currency_rates_usd())
+# print(currency_rates_usd())
 
 
 def currency_rates_eur() -> Optional[float]:
