@@ -1,10 +1,11 @@
 import json
 from typing import List
 
-from src.utils import read_excel
 from src.logger import setup_logger
+from src.utils import read_excel
 
 logger = setup_logger("services", "services.log")
+
 
 def simple_search(transactions: List[dict], search_bar: str) -> str:
     """Пользователь передает строку для поиска,

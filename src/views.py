@@ -2,18 +2,20 @@
 
 
 import os
+import requests
 from datetime import datetime
 from typing import List, Optional, Tuple
 
-import requests
+
 from dotenv import load_dotenv
 
 from src.utils import read_excel, user_currencies, user_stocks
 
-load_dotenv()
+
 from src.logger import setup_logger
 
 logger = setup_logger("views", "views.log")
+load_dotenv()
 
 def get_greeting(datetime_str) -> str:
     """Функция для определения времени суток на основе переданной даты и времени."""

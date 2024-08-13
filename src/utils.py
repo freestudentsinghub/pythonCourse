@@ -2,9 +2,11 @@ import json
 from typing import Any, Hashable
 
 import pandas as pd
+
 from src.logger import setup_logger
 
 logger = setup_logger("utils", "utils.log")
+
 
 def read_excel(path: str) -> list[dict[Hashable, Any]]:
     """считывает финансовые операции с файла excel"""
