@@ -4,6 +4,9 @@ from typing import Optional
 import pandas as pd
 
 from src.utils import read_excel
+from src.logger import setup_logger
+
+logger = setup_logger("reports", "reports.log")
 
 transactions_data = read_excel("../data/operations.xls")
 transactions = pd.DataFrame(transactions_data)
@@ -11,12 +14,13 @@ transactions = pd.DataFrame(transactions_data)
 
 def report_to_file_default(func):
     def wrapper(*args, **kwargs):
-
+        logger.info("decorator report_to_file_default start")
         result = func(*args, **kwargs)
         with open("reports_file.txt", "w") as file:
             file.write(str(result))
         return result
 
+    logger.info("decorator report_to_file_default done")
     return wrapper
 
 
@@ -25,7 +29,7 @@ def spending_by_category(
     transactions: pd.DataFrame, category: str, date: Optional[str] = None
 ) -> pd.DataFrame:
     """Функция возвращает траты по заданной категории за последние три месяца (от переданной даты)."""
-
+    logger.info(f"start spending by category {category}, {date}")
     if date is None:
         parsed_date = datetime.now()
     else:
@@ -43,7 +47,7 @@ def spending_by_category(
     transactions = transactions[
         pd.to_datetime(transactions["Дата операции"], dayfirst=True) > end_data
     ]
-
+    logger.info("spending_by_category done")
     return pd.DataFrame(transactions)
 
 

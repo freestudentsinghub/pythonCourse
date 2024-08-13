@@ -4,6 +4,9 @@ import json
 from src.views import (currency_rates_eur, currency_rates_usd, for_each_card,
                        get_greeting, get_stock_prices, symbols,
                        top_transactions_by_payment_amount, transactions)
+from src.logger import setup_logger
+
+logger = setup_logger("main", "main.log")
 
 
 def main_func(datetime_str: str) -> str:
@@ -14,7 +17,7 @@ def main_func(datetime_str: str) -> str:
     currency_rates_one = currency_rates_usd()
     currency_rates_two = currency_rates_eur()
     stock_prices = get_stock_prices(symbols)
-
+    logger.info("start main_func")
     response = {
         "greeting": greeting,
         "cards": [
@@ -36,7 +39,7 @@ def main_func(datetime_str: str) -> str:
         ],
         "stock_prices": stock_prices,
     }
-
+    logger.info("end main_func")
     return json.dumps(response, ensure_ascii=False, indent=2)
 
 

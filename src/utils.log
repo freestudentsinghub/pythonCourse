@@ -1,0 +1,5 @@
+2024-08-13 13:11:32,156 utils.py INFO: func user currencies done ['USD', 'EUR']
+2024-08-13 13:11:32,157 utils.py INFO: func user stocks done ['AAPL', 'AMZN', 'GOOGL', 'MSFT', 'TSLA']
+2024-08-13 13:14:52,186 utils.py INFO: func user currencies done ['USD', 'EUR']
+2024-08-13 13:14:52,187 utils.py INFO: func user stocks done ['AAPL', 'AMZN', 'GOOGL', 'MSFT', 'TSLA']
+2024-08-13 13:14:52,747 utils.py INFO: func read excel done
