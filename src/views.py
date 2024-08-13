@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import json
+
 import os
 from datetime import datetime
 from typing import List, Optional, Tuple
+
 import requests
 from dotenv import load_dotenv
-from src.utils import read_excel, user_stocks, user_currencies
+
+from src.utils import read_excel, user_currencies, user_stocks
+
 load_dotenv()
 
 
@@ -143,6 +146,3 @@ def get_stock_prices(symbols: List[str]) -> List[dict]:
 symbols = user_stocks
 result = get_stock_prices(symbols)
 # print(result)
-
-
-

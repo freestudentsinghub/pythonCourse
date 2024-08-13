@@ -6,7 +6,7 @@ import pytest
 
 from src.utils import read_excel
 from src.views import (currency_rates_eur, currency_rates_usd, for_each_card,
-                       get_greeting, get_stock_prices, main_fun,
+                       get_greeting, get_stock_prices,
                        top_transactions_by_payment_amount)
 
 
@@ -55,7 +55,7 @@ def test_for_each_card(
     assert cashback == expected_cashback
 
 
-transactions = read_excel("../../pythonProject7/mywork/data/operations.xls")
+transactions = read_excel("../data/operations.xls")
 
 
 @pytest.fixture
@@ -100,7 +100,7 @@ def test_top_transactions_by_payment_amount(test_data: List[Dict]) -> None:
 
 
 def test_currency_rates_eur() -> None:
-    """тест Курс валют EUR"""
+    """тест для функции курса валют EUR"""
     mock_response = Mock()
     mock_response.json.return_value = {
         "conversion_rates": {"RUB": 93.2726, "EUR": 0.85}
@@ -111,7 +111,7 @@ def test_currency_rates_eur() -> None:
 
 
 def test_currency_rates_usd() -> None:
-    """тест курс валют usd"""
+    """тест для функции курса валют usd"""
     mock_response = Mock()
     mock_response.json.return_value = {
         "conversion_rates": {"RUB": 85.1446, "EUR": 0.85}
@@ -123,14 +123,18 @@ def test_currency_rates_usd() -> None:
 
 @pytest.fixture
 def test_data_two() -> List[Dict]:
-    return [{'stock': 'AAPL', 'price': None}, {'stock': 'AMZN', 'price': None}, {'stock': 'GOOGL', 'price': None}
-        , {'stock': 'MSFT', 'price': None}, {'stock': 'TSLA', 'price': None}]
+    return [
+        {"stock": "AAPL", "price": None},
+        {"stock": "AMZN", "price": None},
+        {"stock": "GOOGL", "price": None},
+        {"stock": "MSFT", "price": None},
+        {"stock": "TSLA", "price": None},
+    ]
 
 
 def test_get_stock_prices(test_data_two: List[Dict]) -> None:
-    '''тест для функции которая Получение стоимости акций по списку символов компаний'''
-    assert get_stock_prices(symbols=["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"]) == test_data_two
-
-
-
-
+    """тест для функции которая получает стоимости акций по списку символов компаний"""
+    assert (
+        get_stock_prices(symbols=["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"])
+        == test_data_two
+    )

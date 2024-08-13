@@ -5,7 +5,6 @@ import pandas as pd
 
 from src.utils import read_excel
 
-
 transactions_data = read_excel("../data/operations.xls")
 transactions = pd.DataFrame(transactions_data)
 

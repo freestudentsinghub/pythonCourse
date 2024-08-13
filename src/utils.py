@@ -14,6 +14,7 @@ def read_excel(path: str) -> list[dict[Hashable, Any]]:
 
 # print(read_excel('../data/operations.xls'))
 
+
 def func_user_currencies():
     """достает из файла данные о 'пользовательских настройках' для курса валют"""
     with open("../user_settings.json", "r", encoding="utf-8") as f:

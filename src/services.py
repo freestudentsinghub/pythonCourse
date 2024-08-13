@@ -1,10 +1,7 @@
 import json
-
 from typing import List
 
 from src.utils import read_excel
-
-
 
 
 def simple_search(transactions: List[dict], search_bar: str) -> str:
