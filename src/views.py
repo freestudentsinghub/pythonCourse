@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import json
+import os
 from datetime import datetime
 from typing import List, Optional, Tuple
-
 import requests
-
-from src.utils import read_excel
+from dotenv import load_dotenv
+from src.utils import read_excel, user_stocks, user_currencies
+load_dotenv()
 
 
 def get_greeting(datetime_str) -> str:
@@ -25,7 +26,7 @@ def get_greeting(datetime_str) -> str:
         return "Доброй ночи"
 
 
-transactions = read_excel("../../pythonProject7/mywork/data/operations.xls")
+transactions = read_excel("../data/operations.xls")
 
 
 def for_each_card(transactions: List[dict]) -> Tuple[List[str], List[float], List[int]]:
@@ -77,8 +78,9 @@ def top_transactions_by_payment_amount(transactions: List[dict]) -> List[dict]:
 
 def currency_rates_usd() -> Optional[float]:
     """Курс валют USD"""
+    symbol = user_currencies[0]
     currency_exchange_rate = requests.get(
-        "https://v6.exchangerate-api.com/v6/04fed55e4543c3c22311996f/latest/USD"
+        f"https://v6.exchangerate-api.com/v6/04fed55e4543c3c22311996f/latest/{symbol}"
     )
     data = currency_exchange_rate.json()
     conversion_rates = data.get("conversion_rates")
@@ -94,8 +96,9 @@ def currency_rates_usd() -> Optional[float]:
 
 def currency_rates_eur() -> Optional[float]:
     """Курс валют EUR"""
+    symbol = user_currencies[1]
     currency_exchange_rate = requests.get(
-        "https://v6.exchangerate-api.com/v6/04fed55e4543c3c22311996f/latest/EUR"
+        f"https://v6.exchangerate-api.com/v6/04fed55e4543c3c22311996f/latest/{symbol}"
     )
     data = currency_exchange_rate.json()
     conversion_rates = data.get("conversion_rates")
@@ -111,7 +114,7 @@ def currency_rates_eur() -> Optional[float]:
 
 def get_stock_prices(symbols: List[str]) -> List[dict]:
     """Получение стоимости акций по списку символов компаний."""
-    api_key = "RO2A922012F628NY"
+    api_key = os.getenv("API_KEY")
     stock_prices = []
 
     for symbol in symbols:
@@ -137,41 +140,9 @@ def get_stock_prices(symbols: List[str]) -> List[dict]:
     return stock_prices
 
 
-symbols = ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"]
+symbols = user_stocks
 result = get_stock_prices(symbols)
 # print(result)
 
 
-def main_fun(datetime_str: str) -> str:
-    """Главная функция, принимающая строку с датой и временем и возвращающая JSON-ответ."""
-    greeting = get_greeting(datetime_str)
-    cards, total_spend, cashback = for_each_card(transactions)
-    top_five_transactions = top_transactions_by_payment_amount(transactions)
-    currency_rates_one = currency_rates_usd()
-    currency_rates_two = currency_rates_eur()
-    stock_prices = get_stock_prices(symbols)
-    response = {
-        "greeting": greeting,
-        "cards": [
-            {
-                "last_digits": cards[0],
-                "total_spent": total_spend[0],
-                "cashback": cashback[0],
-            },
-            {
-                "last_digits": cards[1],
-                "total_spent": total_spend[1],
-                "cashback": cashback[1],
-            },
-        ],
-        "top_transactions": top_five_transactions,
-        "currency_rates": [
-            {"currency": "USD", "rate": currency_rates_one},
-            {"currency": "EUR", "rate": currency_rates_two},
-        ],
-        "stock_prices": stock_prices,
-    }
-    return json.dumps(response, ensure_ascii=False, indent=2)
 
-
-# print(main_fun("31.12.2021 16:44:00"))
